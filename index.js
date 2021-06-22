@@ -53,6 +53,9 @@ const cookies = require('./cookies.json');
         await page.goto(`https://webcreatives.in/wp-admin`, {waitUntil : 'networkidle2'})
         res.send(page.content())
     })
-
+  
    
 })()
+
+
+app.listen(process.env.PORT).then(() => console.log(`listening to the port ${process.env.PORT}`))
