@@ -46,11 +46,11 @@ const cookies = require('./cookies.json');
     }
    
 //-----------ignore from here, still working on this---------------
-    app.get('*', async (req,res) =>{
+    app.get('/', async (req,res) =>{
   
 
         // since cookies for the page are already set in the else block, we can access any private routes without loging in again
-        await page.goto(`https://webcreatives.in${req.url}`, {waitUntil : 'networkidle2'})
+        await page.goto(`https://webcreatives.in/wp-admin`, {waitUntil : 'networkidle2'})
         res.send(page.content())
     })
 
