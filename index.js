@@ -18,7 +18,7 @@ const cookies = require('./cookies.json');
 
     //----------check for auth cookies in the cookies.json file-------
     let authCookie = cookies.filter(cookie => {
-        return cookie.name.include('wfwaf-authcookie') 
+        return cookie.name.includes('wfwaf-authcookie') 
     })[0]
 
     /* if auth doest not exists, puppeteer gonna login and retrive the cookies from the dashboad and store them in cookies.json for future use*/
@@ -34,6 +34,7 @@ const cookies = require('./cookies.json');
         await page.waitForNavigation()
         console.log('logged in')
         let currentCookies = await page.cookies()
+        console.log(currentCookies)
         await fs.writeFileSync('cookies.json', JSON.stringify(currentCookies))
         console.log('cookies saved')
 
@@ -49,7 +50,7 @@ const cookies = require('./cookies.json');
   
 
         // since cookies for the page are already set in the else block, we can access any private routes without loging in again
-        await page.goto(`https://webcreatives.in${req.params.page}`, {waitUntil : 'networkidle2'})
+        await page.goto(`https://webcreatives.in${req.url}`, {waitUntil : 'networkidle2'})
         res.send(page.content())
     })
 
