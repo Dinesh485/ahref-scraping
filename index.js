@@ -18,19 +18,19 @@ const cookies = require('./cookies.json');
 
     //----------check for auth cookies in the cookies.json file-------
     let authCookie = cookies.filter(cookie => {
-        return cookie === 'BSSESSID'
+        return cookie.name.include('wfwaf-authcookie') 
     })[0]
 
     /* if auth doest not exists, puppeteer gonna login and retrive the cookies from the dashboad and store them in cookies.json for future use*/
     if(!authCookie){
-        await page.goto('https://ahrefs.com/user/login', {waitUntil: "networkidle2"})
+        await page.goto('https://webcreatives.in/wp-admin', {waitUntil: "networkidle2"})
         console.log('page fetched')
-        await page.waitForSelector('input[name=email]')
-        await page.type('input[name=email]', username )
-        await page.waitForSelector('input[name=password]')
-        await page.type('input[name=password]', password )
-        await page.click('input[type=checkbox]');
-        await page.click('button[type=submit]')
+        await page.waitForSelector('input[name=log]')
+        await page.type('input[name=log]', username )
+        await page.waitForSelector('input[name=pwd]')
+        await page.type('input[name=pwd]', password )
+        await page.click('input[name=rememberme]');
+        await page.click('input[name=wp-submit]')
         await page.waitForNavigation()
         console.log('logged in')
         let currentCookies = await page.cookies()
@@ -45,11 +45,11 @@ const cookies = require('./cookies.json');
     }
    
 //-----------ignore from here, still working on this---------------
-    app.get('/:page', async (req,res) =>{
+    app.get('*', async (req,res) =>{
   
 
         // since cookies for the page are already set in the else block, we can access any private routes without loging in again
-        await page.goto(`https://ahrefs.com${req.params.page}`, {waitUntil : 'networkidle2'})
+        await page.goto(`https://webcreatives.in${req.params.page}`, {waitUntil : 'networkidle2'})
         res.send(page.content())
     })
 
