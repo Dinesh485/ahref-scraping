@@ -3,9 +3,12 @@ const app = express();
 if(process.env.NODE_ENV !== 'production'){
     require('dotenv').config()
 }
-const puppeteer = require("puppeteer");
+const puppeteer = require("puppeteer-extra");
 const fs = require('fs');
 const cookies = require('./cookies.json');
+const stealthPlugin  = require('puppeteer-extra-plugin-stealth')
+
+puppeteer.use(stealthPlugin());
 
 
 (async() =>{
@@ -13,24 +16,23 @@ const cookies = require('./cookies.json');
     //-------puppeteer gonna create a page when server starts--------------
     const username = process.env.USERNAME
     const password = process.env.PASSWORD
-    const browser  = await puppeteer.launch()
+    const browser  = await puppeteer.launch({headless: true})
     const page = await browser.newPage()
-
+ 
     //----------check for auth cookies in the cookies.json file-------
     let authCookie = cookies.filter(cookie => {
         return cookie.name.includes('wfwaf-authcookie') 
     })[0]
-
+     
     /* if auth doest not exists, puppeteer gonna login and retrive the cookies from the dashboad and store them in cookies.json for future use*/
     if(!authCookie){
         await page.goto('https://webcreatives.in/wp-admin', {waitUntil: "networkidle2"})
         console.log('page fetched')
         await page.waitForSelector('input[name=log]')
-        await page.type('input[name=log]', username )
+        await page.type('input[name=log]', 'johnc' )
         await page.waitForSelector('input[name=pwd]')
-        await page.type('input[name=pwd]', password )
-        await page.click('input[name=rememberme]');
-        await page.click('input[name=wp-submit]')
+        await page.type('input[name=pwd]', 'ycseeme#9' )
+        await page.click('input[name=wp-submit]'),
         await page.waitForNavigation()
         console.log('logged in')
         let currentCookies = await page.cookies()
@@ -50,19 +52,13 @@ const cookies = require('./cookies.json');
   
 
         // since cookies for the page are already set in the else block, we can access any private routes without loging in again
-        try{
-            await page.goto(`https://webcreatives.in/wp-admin`, {waitUntil : 'networkidle2'})
-        }catch(err){
-            if(err){
-                return res.send('page took long time to respond')
-            }
-        }
-    
-        res.send(page.content())
+        await page.goto('https://webcreatives.in/wp-admin')
+        let pageContent = await page.content()
+         res.send(pageContent)
     })
   
+    app.listen(process.env.PORT, () => console.log(`listening to the port ${process.env.PORT}`))
    
 })();
 
 
-app.listen(process.env.PORT, () => console.log(`listening to the port ${process.env.PORT}`))
