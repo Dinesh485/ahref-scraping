@@ -14,7 +14,7 @@ puppeteer.use(stealthPlugin());
 (async() =>{
    
     //-------puppeteer gonna create a page when server starts--------------
-    const username = process.env.USERNAME
+    const name = process.env.NAME
     const password = process.env.PASSWORD
     const browser  = await puppeteer.launch({headless: true})
     const page = await browser.newPage()
@@ -29,9 +29,9 @@ puppeteer.use(stealthPlugin());
         await page.goto('https://webcreatives.in/wp-admin', {waitUntil: "networkidle2"})
         console.log('page fetched')
         await page.waitForSelector('input[name=log]')
-        await page.type('input[name=log]', 'johnc' )
+        await page.type('input[name=log]', name )
         await page.waitForSelector('input[name=pwd]')
-        await page.type('input[name=pwd]', 'ycseeme#9' )
+        await page.type('input[name=pwd]', password )
         await page.click('input[name=wp-submit]'),
         await page.waitForNavigation()
         console.log('logged in')
