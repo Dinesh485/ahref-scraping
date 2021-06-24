@@ -12,19 +12,19 @@ puppeteer.use(stealthPlugin());
 
  //----------check for auth cookies in the cookies.json file-------
  let authCookie = cookies.filter(cookie => {
-    return cookie.name.includes('wfwaf-authcookie') 
+    return cookie.name.includes('BSSESSID') 
 })[0]
 
 
 const login = async (page, username, password) =>{
     try{
-        await page.goto('https://webcreatives.in/wp-admin', {waitUntil: "networkidle2"})
+        await page.goto('https://ahrefs.com/user/login', {waitUntil: "networkidle2"})
         console.log('page fetched')
-        await page.waitForSelector('input[name=log]')
-        await page.type('input[name=log]', username)
-        await page.waitForSelector('input[name=pwd]')
-        await page.type('input[name=pwd]', password )
-        await page.click('input[name=wp-submit]')
+        await page.waitForSelector('input[name=email]')
+        await page.type('input[name=email]', username)
+        await page.waitForSelector('input[name=password]')
+        await page.type('input[name=password]', password )
+        await page.click('button[type=submit]')
         await page.waitForNavigation()
         console.log('logged in')
         let currentCookies = await page.cookies()
@@ -63,7 +63,7 @@ const login = async (page, username, password) =>{
     app.get('*', async (req,res) =>{
   
         // since cookies for the page are already set in the else block, we can access any private routes without loging in again
-        await page.goto(`https://webcreatives.in${req.url}`, {waitUntil: 'networkidle2'})
+        await page.goto(`https://ahrefs.com${req.url}`, {waitUntil: 'networkidle2'})
        
         let pageContent = await page.content()
          res.send(pageContent)
