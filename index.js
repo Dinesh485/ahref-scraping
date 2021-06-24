@@ -18,7 +18,7 @@ puppeteer.use(stealthPlugin());
 
 const login = async (page, username, password) =>{
     try{
-        await page.goto('https://ahrefs.com/user/login', {waitUntil: "networkidle2"})
+        await page.goto('https://ahrefs.com/user/login', {waitUntil: "networkidle2" , timeout: 0})
         console.log('page fetched')
         await page.waitForSelector('input[name=email]')
         await page.type('input[name=email]', username)
@@ -63,7 +63,7 @@ const login = async (page, username, password) =>{
     app.get('*', async (req,res) =>{
   
         // since cookies for the page are already set in the else block, we can access any private routes without loging in again
-        await page.goto(`https://ahrefs.com${req.url}`, {waitUntil: 'networkidle2'})
+        await page.goto(`https://ahrefs.com${req.url}`, {waitUntil: 'networkidle2', timeout: 0})
        
         let pageContent = await page.content()
          res.send(pageContent)
