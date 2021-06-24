@@ -26,9 +26,7 @@ const login = async (page, username, password) =>{
         await page.waitForSelector('input[name=password]')
         await page.type('input[name=password]', password )
         console.log('password typed' + password)
-        await page.click('button[type=submit]')
-        console.log('button clicked')
-        await page.waitForNavigation()
+        await Promise.all([page.click('button[type=submit]'), page.waitForNavigation()]);
         console.log('logged in')
         let currentCookies = await page.cookies()
         await fs.writeFileSync('cookies.json', JSON.stringify(currentCookies))
