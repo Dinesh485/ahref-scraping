@@ -20,9 +20,9 @@ const login = async (page, username, password) =>{
     try{
         await page.goto('https://ahrefs.com/user/login', {waitUntil: "networkidle2"})
         console.log('page fetched')
-       
+        await page.waitForSelector('input[name=email]')
         await page.type('input[name=email]', username)
-        
+        await page.waitForSelector('input[name=password]')
         await page.type('input[name=password]', password )
         await page.click('button[type=submit]')
         await page.waitForNavigation()
