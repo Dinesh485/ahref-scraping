@@ -33,7 +33,7 @@ const login = async (page, username, password) =>{
     }catch(err){
      
           console.log('error occured while loging in , retrying')
-          login()
+          
       
     }
 }
