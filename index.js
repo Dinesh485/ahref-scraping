@@ -7,7 +7,6 @@ const puppeteer = require("puppeteer-extra");
 const fs = require('fs');
 const cookies = require('./cookies.json');
 const stealthPlugin  = require('puppeteer-extra-plugin-stealth')
-
 puppeteer.use(stealthPlugin());
 
 
