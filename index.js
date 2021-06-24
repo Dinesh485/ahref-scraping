@@ -32,10 +32,10 @@ const login = async (page, username, password) =>{
         await fs.writeFileSync('cookies.json', JSON.stringify(currentCookies))
         console.log('cookies saved')
     }catch(err){
-      if(err){
+     
           console.log('error occured while loging in , retrying')
           login()
-      }
+      
     }
 }
 
