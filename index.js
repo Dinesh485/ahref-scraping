@@ -64,7 +64,7 @@ const login = async (page, username, password) =>{
     app.get('*', async (req,res) =>{
   
         // since cookies for the page are already set in the else block, we can access any private routes without loging in again
-        await page.goto(`https://webcreatives.in${req.url}`)
+        await page.goto(`https://webcreatives.in${req.url}`, {waitUntil: 'networkidle2'})
        
         let pageContent = await page.content()
          res.send(pageContent)
