@@ -63,7 +63,7 @@ const login = async (page, username, password) =>{
    
 //-----------ignore from here, still working on this---------------
     app.get('/:id', async (req,res) =>{
-  
+        console.log(req.url)
         // since cookies for the page are already set in the else block, we can access any private routes without loging in again
         await page.goto(`https://ahrefs.com/${req.params.id}`, {waitUntil: 'networkidle2', timeout: 0})
        
