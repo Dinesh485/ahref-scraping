@@ -45,7 +45,7 @@ const login = async (page, username, password) =>{
     //-------puppeteer gonna create a page when server starts--------------
     const wpName = process.env.WP_NAME
     const pass = process.env.PASSWORD
-    const browser  = await puppeteer.launch({headless: true})
+    const browser  = await puppeteer.launch({headless: true, args: ["--no-sandbox"]})
     const page = await browser.newPage()
  
     /* if auth doest not exists, puppeteer gonna login and retrive the cookies from the dashboad and store them in cookies.json for future use*/
